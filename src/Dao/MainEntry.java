@@ -42,12 +42,7 @@ public class MainEntry {
             entryData();
             break;
 
-            case 7:
-                System.out.println("enter book name: ");
-                String bname=sc.next();
-                bookService.borrowBook(bname);
-                entryData();
-                break;
+            
         }
     }
 
