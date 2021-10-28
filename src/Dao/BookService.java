@@ -5,16 +5,13 @@ import Model.Book;
 import Model.BookIssueDetails;
 import Model.User;
 
-import java.io.Console;
+
 import java.time.LocalDate;
 import java.util.*;
 
 public class BookService {
 
     Scanner sc = new Scanner(System.in);
-    Map<Integer, BookIssueDetails> register = new HashMap<Integer, BookIssueDetails>();
-    long difference_In_Days;
-
     List<Book> booklist = new ArrayList<>();
     List<Book> duplicatebooklist = new ArrayList<>();
     List<User> userList = new ArrayList<>();
@@ -87,7 +84,6 @@ public class BookService {
         } else if (found == 1) {
             System.out.println("You successfully borrowed " + title);
             borrowedBook.add(select);
-//            System.out.println(borrowedBook);
 
         } else if (found == 2) {
             System.out.println(title + "already borrowed!");
@@ -104,8 +100,6 @@ public class BookService {
         Iterator<Book> itr = booklist.iterator();
         while (itr.hasNext()) {
             Book b = itr.next();
-//            if (bookname.equalsIgnoreCase(b.getBookName()))
-//            {
             if (booklist.contains(b.bookName())) {
                 found = 1;
                 System.out.println("Book is available");
@@ -186,23 +180,6 @@ public class BookService {
             System.out.println("Could not remove book isbn " + isbn);
         }
     }
-
-//        Vector<Integer>requests=new Vector<>();
-//    void viewRequests() {
-//        if (requests.size() == 0) {
-//            System.out.println("There are no pending requests!");
-//        } else {
-//            String sp = "\t\t\t";
-//            System.out.println("Following are the pending requests for this resource:\n\nNo." + sp + "userID");
-//            for (int i = 0; i < requests.size(); i++) {
-//                System.out.println((i + 1) + "." + sp + (int) requests.elementAt(i));
-//            }
-//        }
-//    }
-
-
-
-
     public void returnBook()
     {
         int found=0;
@@ -214,14 +191,8 @@ public class BookService {
             Book b=itr.next();
             if(bookName.equalsIgnoreCase(b.getBookName()))
                 found=1;
-//                System.out.println("Enter return date:");
-//                String returndate=sc.next();
-//               Date d=new Date();
-//                int d2 = (int) d.parse(returndate);
-//                LocalDate returnDate = LocalDate.now();
-//                booklist.add();
-//                duplicatebooklist.add(booklist.get(i).getBook());
-                System.out.println("book return successfully "+duplicatebooklist);
+                System.out.println("book return successfully ");
+                booklist.add(b);
             }
         if(found==0)
         {
@@ -230,69 +201,5 @@ public class BookService {
         }
     }
 
-
-
-//    /  public void returnBook() {
-//        System.out.println("Enter book name:");
-//        Scanner c = new Scanner(System.in);
-//        String bookName = c.next();
-//        System.out.println("Enter mobile number:");
-//        long mono = c.nextLong();
-//    List<BookIssueDetails> bd = hm.get(bookName);
-//       for (BookIssueDetails b : bd) {
-//           if (b.getBookName() == bookName) {
-//               LocalDate returnDate = LocalDate.now();
-//               duplicatebooklist
-//
-////    //                Date todayDate = new Date();
-////                    SimpleDateFormat sdf
-//                                    = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-//                    try {
-//                        Date d1 = sdf.parse(issueDate);
-//                        Date d2 = sdf.parse(returnDate);
-//                        long difference_In_Time
-//                                = d2.getTime() - d1.getTime();
-//
-////                         difference_In_Days
-////                                = (difference_In_Time
-////                                / (1000 * 60 * 60 * 24))
-////                                % 365;
-//                        long difference_In_Days
-//                                = TimeUnit
-//                                .MILLISECONDS
-//                                .toDays(difference_In_Time)
-//                                % 365;
-//
-//                        System.out.println("Issued Date:"+issueDate+"\n"+"Return Date:"+returnDate);
-//    //
-//
-//    //
-//                        if (difference_In_Days > 10) {
-//                            int fine = (int) (difference_In_Days - 10);
-//                            fine = fine * 10;
-//                            System.out.println("Total Fine " + fine + " Rs.");
-//                        }
-//                    } catch (ParseException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-
-
-
-
-
-//    void update(int key)
-//    {
-//        if(hashmap.containsKey(key))
-//        {
-//            String oldValue = hashmap.get(key);
-//            System.out.println("Please enter new Book Name for this key: ");
-//            String newValue = sc.next();
-//            System.out.println();
-//            hashmap.replace(key, oldValue, newValue);
-//        }
-//        else
-//            System.out.println("Sorry, Please Provide Proper key....");
-//    }
 
 

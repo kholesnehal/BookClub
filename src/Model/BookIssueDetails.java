@@ -17,17 +17,6 @@ public class BookIssueDetails {
         this.book=book;
     }
 
-//    @Override
-//    public String toString() {
-//        return "BookIssueDetails{" +
-//                "issueDate=" + issueDate +
-//
-//                ", book=" + bookName +
-//                ", user=" + user +
-//                '}';
-//    }
-
-
     @Override
     public String toString() {
         return "BookIssueDetails{" +
@@ -53,7 +42,5 @@ public class BookIssueDetails {
     public User getUser() {
         return user;
     }
-//    public String getBookName() {
-//        return ;
-//    }
+
 }

@@ -66,13 +66,6 @@ public class Book {
         return authorName;
     }
 
-    public void setReturnDate(LocalDate returnDate) {
-    }
 
-//    public Book getBook() {
-//        return bookName;
-//    }
 
-//    public Book getBook(){return
-//}}
 }
