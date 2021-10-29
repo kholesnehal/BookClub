@@ -1,71 +1,58 @@
 package Model;
 
-import java.time.LocalDate;
+
+import java.util.ArrayList;
 
 public class Book {
     public boolean borrowed;
-    private User user;
+    //    private User user;
     private String bookName;
-    private int ISBN;
-    private float price;
-    private String authorName;
+    private String ISBN;
+    private ArrayList<String>authorName;
+    private Owner owner;
 
-    public Book(String bookName, int ISBN, float price, String authorName) {
-//            this.user = user;
+    public Book(String bookName, String ISBN, ArrayList<String> authorName, Owner owner) {
         this.bookName = bookName;
         this.ISBN = ISBN;
-        this.price = price;
         this.authorName = authorName;
+        this.owner = owner;
     }
 
     @Override
     public String toString() {
         return "Book{" +
-//                    "user=" + user +
-                ", bookName='" + bookName + '\'' +
-                ", ISBN=" + ISBN +
-                ", price=" + price +
+                "bookName='" + bookName + '\'' +
+                ", ISBN='" + ISBN + '\'' +
                 ", authorName=" + authorName +
+                ", owner=" + owner +
                 '}';
-    }
-
-    public boolean isBorrowed() {
-        return borrowed;
-    }
-
-    public User getUser() {
-        return user;
     }
 
     public String getBookName() {
         return bookName;
     }
 
-    public int getISBN() {
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
+    }
+
+    public String getISBN() {
         return ISBN;
     }
 
-    public float getPrice() {
-        return price;
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
     }
 
-
-    public String getAuthorName() {
+    public ArrayList<String> getAuthorName() {
         return authorName;
     }
 
-    public String bookName() {
-        return bookName;
+    public void setAuthorName(ArrayList<String> authorName) {
+        this.authorName = authorName;
     }
 
-    public int ISBN() {
-        return ISBN;
+    public boolean isBorrowed() {
+        return borrowed;
     }
-
-    public String authorName() {
-        return authorName;
-    }
-
-
-
 }

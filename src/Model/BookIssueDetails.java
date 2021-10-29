@@ -5,16 +5,24 @@ import java.util.ArrayList;
 
 public class BookIssueDetails {
     private LocalDate issueDate;
-    private LocalDate returnDate;
+    private String returnDate;
     private String bookName;
     private User user;
     private ArrayList<Book> book;
 
-    public BookIssueDetails(LocalDate issueDate, String bookName, User user) {
+//    public BookIssueDetails(LocalDate issueDate, String bookName, User user) {
+//        this.issueDate = issueDate;
+//        this.bookName = bookName;
+//        this.user = user;
+//        this.book=book;
+//    }
+
+
+    public BookIssueDetails(LocalDate issueDate, String returnDate, String bookName, User user) {
         this.issueDate = issueDate;
+        this.returnDate = returnDate;
         this.bookName = bookName;
         this.user = user;
-        this.book=book;
     }
 
     @Override
@@ -31,7 +39,7 @@ public class BookIssueDetails {
         return issueDate;
     }
 
-    public LocalDate getReturnDate() {
+    public String getReturnDate() {
         return returnDate;
     }
 
