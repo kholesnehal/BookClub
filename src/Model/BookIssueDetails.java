@@ -10,14 +10,6 @@ public class BookIssueDetails {
     private User user;
     private ArrayList<Book> book;
 
-//    public BookIssueDetails(LocalDate issueDate, String bookName, User user) {
-//        this.issueDate = issueDate;
-//        this.bookName = bookName;
-//        this.user = user;
-//        this.book=book;
-//    }
-
-
     public BookIssueDetails(LocalDate issueDate, String returnDate, String bookName, User user) {
         this.issueDate = issueDate;
         this.returnDate = returnDate;

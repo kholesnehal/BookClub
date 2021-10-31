@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class Book {
     public boolean borrowed;
-    //    private User user;
     private String bookName;
     private String ISBN;
     private ArrayList<String>authorName;

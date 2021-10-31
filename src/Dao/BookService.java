@@ -4,38 +4,37 @@ package Dao;
 import Model.Book;
 import Model.BookIssueDetails;
 import Model.User;
-
-
 import java.time.LocalDate;
 import java.util.*;
-
+import org.apache.log4j.*;
 public class BookService {
 
+    private static Logger logger= LogManager.getLogger(BookService.class);
     Scanner sc = new Scanner(System.in);
-    Map<String, ArrayList<Book>> bookData = new HashMap<>();
+    Map<String, ArrayList<Book>> bookmap = new HashMap<>();
 
     ArrayList<Book> booklist = new ArrayList<>();
 
-    ArrayList<String>authors=new ArrayList<>();
+    ArrayList<Book>borrowedBook=new ArrayList<>();
 
-
+    Queue<String>bookqueue=new PriorityQueue<>() ;
+        Map<String,BookIssueDetails>bookIssueDetailsMap=new HashMap<String, BookIssueDetails>() ;
 
         public void addBook(Book book) {
             booklist.add(book);
-            bookData.put(book.getBookName(), booklist);
+            bookmap.put(book.getBookName(), booklist);
 
         }
 
-
     public void showBook() {
-        System.out.println("Available books:");
-       booklist.forEach(book -> System.out.println(book.toString()));
-    }
+//        logger.error("Available books:");
+//        logger.info("book:");
+        logger.trace("Exiting application.");
 
-//
-//
-//
-    public Book issuedBook(BookIssueDetails bookIssueDetails,String title) {
+
+        booklist.forEach(book -> System.out.println(book.toString()));
+    }
+    public Book issuedBook(String title) {
 
         Book select = null;
         int found = 0;
@@ -45,7 +44,8 @@ public class BookService {
                     select = b;
                     found = 1;
                     booklist.remove(b);
-//                    borrowedBook.add(select);
+                    borrowedBook.add(select);
+
                     break;
                 }
                 return select;
@@ -60,36 +60,45 @@ public class BookService {
         }
 
         if (found == 0) {
-            System.out.println(title+" already borrowed !!");
+
+            logger.error("Sorry, this book is not in our catalog.");
         } else if (found == 1) {
-            System.out.println("You successfully borrowed " + title);
-//            borrowedBook.add(select);
+            logger.error("You successfully borrowed " + title);
+
+
 
         } else if (found == 2) {
-            System.out.println("Sorry, this book is not in our catalog.");
 
-
+            logger.error(title+" book already borrowed!!.");
         }
         return select;
     }
+    public void requestBook(String bookTitle)
+    {
+        for(Book book:booklist)
+        {
+            if (!bookTitle.equalsIgnoreCase(book.getBookName())) {
+                logger.error("Request for book "+bookTitle+ " placed successfully!!");
 
-//    public void requestBook() {
-//        int found = 0;
-//        System.out.println("Enter book name:");
-//        String bookname = sc.next();
-//        Iterator<Book> itr = borrowedBook.iterator();
-//        while (itr.hasNext()) {
-//            Book b = itr.next();
-//            if (borrowedBook.contains(b.bookName())) {
-//                found = 1;
-//                System.out.println("Book is available");
-//            }
-//        }
-//        if (found == 0) {
-//            System.out.println("Book is occupied ! please wait.");
-//        }
-//    }
-//
+                bookqueue.add(book.getBookName());
+                Iterator it = bookqueue.iterator();
+                while ((it.hasNext())) {
+                    System.out.println(it.next() + ",");
+                }
+            break;
+            }
+            else
+            {
+                logger.error("book is available ");
+
+                break;
+            }
+
+        }
+
+
+    }
+
     public void byBookName(String title) {
 
         int count = 0;
@@ -100,14 +109,16 @@ public class BookService {
             {
                 count = 1;
                 System.out.println(b.toString());
-                System.out.println("Book is available in catlogue");
+                logger.error("Book is available in catlogue");
+
             }
         }
         if (count == 0) {
-            System.out.println("Book is not available in catlogue");
+            logger.error("Book is not available in catlogue");
+
         }
     }
-//
+
     public void byISBN(String isbn)
     {
         int count = 0;
@@ -117,12 +128,14 @@ public class BookService {
             if (isbn.equalsIgnoreCase(b.getISBN())) {
                 count = 1;
                 System.out.println(b.toString());
-                System.out.println("Book is available for " + isbn);
+                logger.error("Book is available for " + isbn);
+
             }
 
         }
         if (count == 0) {
-            System.out.println(" Book is not available for  " + isbn);
+            logger.error(" Book is not available for  " + isbn);
+
         }
     }
 
@@ -131,16 +144,18 @@ public class BookService {
         Iterator<String> itr = author.iterator();
         while (itr.hasNext()) {
             String b = itr.next();
-            if (authorname.contains(b) )
+            if (author.contains(authorname) )
             {
                 count = 1;
 
                 System.out.println(b.toString());
-                System.out.println("Book available");
+                logger.error("Book  available");
+
             }
         }
         if (count == 0) {
-            System.out.println("Book not available");
+            logger.error("Book not available");
+
         }
     }
 
@@ -149,33 +164,35 @@ public class BookService {
         for (int i = 0; i < booklist.size(); i++) {
             if (booklist.get(i).getISBN() == isbn) {
                 booklist.remove(i);
-                System.out.println("Book remove successfully");
+                logger.error("Book remove successfully");
+
                 successful = true;
             }
         }
         if (!successful) {
-            System.out.println("Could not remove book isbn " + isbn);
+            logger.error("Could not remove book isbn " + isbn);
+
         }
     }
-//    public void returnBook()
-//    {
-//        int found=0;
-//        System.out.println("Enter a BookName");
-//        String bookName = sc.next();
-//        Iterator<Book> itr=borrowedBook.iterator();
-//        while (itr.hasNext())
-//        {
-//            Book b=itr.next();
-//            if(bookName.equalsIgnoreCase(b.getBookName()))
-//                found=1;
-//                System.out.println("book return successfully ");
-//                booklist.add(b);
-//            }
-//        if(found==0)
-//        {
-//            System.out.println("not return yet");
-//        }
-//        }
+    public void returnBook(String bookname)
+    {
+        int found=0;
+        Iterator<Book> itr=borrowedBook.iterator();
+        while (itr.hasNext())
+        {
+            Book b=itr.next();
+            if(bookname.equalsIgnoreCase(b.getBookName()))
+                found=1;
+            logger.error("book return successfully ");
+
+                booklist.add(b);
+            }
+        if(found==0)
+        {
+            logger.error("not return yet");
+
+        }
+        }
     }
 
 

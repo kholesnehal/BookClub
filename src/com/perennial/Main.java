@@ -5,13 +5,10 @@ import Model.Book;
 import Model.BookIssueDetails;
 import Model.Owner;
 import Model.User;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-
 public class Main {
     BookService bookService = new BookService();
 
@@ -29,11 +26,13 @@ public class Main {
         System.out.println("7)Discontinue Book");
         System.out.println("8)Exit");
         int option = in.nextInt();
-//        in.nextLine();
+
+            String returndate="";
         ArrayList<String> authors = new ArrayList<>();
         switch (option) {
+//
             case 1:
-//                ArrayList<String> authors = new ArrayList<>();
+//
                 System.out.println("Enter Book name : ");
                 String bookName = sc.nextLine();
 
@@ -105,24 +104,37 @@ public class Main {
                 User user = new User(username, userAddress, mobile);
 
                 LocalDate issueDate = LocalDate.now();
-                System.out.println("Enter return date in format(dd-mm-yyyy)");
-
-                String returndate = sc.next();
-                Date date1=new SimpleDateFormat("dd-MM-yyyy").parse(returndate);
-                System.out.println(date1);
                 BookIssueDetails bookIssueDetails=new BookIssueDetails(issueDate,returndate,title,user);
                 System.out.println(bookIssueDetails);
-                bookService.issuedBook(bookIssueDetails,title);
+                bookService.issuedBook(title);
+                entryData();
+                break;
+            case 5:
+                System.out.println("Enter book name:");
+                String bname = sc.next();
+                bookService.requestBook(bname);
                 entryData();
                 break;
 
+            case 6:
+                System.out.println("Enter book name:");
+                String bookname= sc.next();
+                System.out.println("Enter return date in format(dd-mm-yyyy)");
+
+                returndate = sc.next();
+                Date date1=new SimpleDateFormat("dd-MM-yyyy").parse(returndate);
+                System.out.println(date1);
+
+                bookService.returnBook(bookname);
+                entryData();
+                break;
             case 7:
                 System.out.println("Enter ISBN:");
                 String isbn2 = sc.next();
                 bookService.discontinueBook(isbn2);
                 entryData();
                 break;
-//
+
             case 8:
                 System.exit(0);
                 break;
