@@ -2,13 +2,14 @@ package Model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BookIssueDetails {
     private LocalDate issueDate;
     private String returnDate;
     private String bookName;
     private User user;
-    private ArrayList<Book> book;
+
 
     public BookIssueDetails(LocalDate issueDate, String returnDate, String bookName, User user) {
         this.issueDate = issueDate;

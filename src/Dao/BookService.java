@@ -6,34 +6,30 @@ import Model.BookIssueDetails;
 import Model.User;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
+import static com.perennial.Main.*;
 import org.apache.log4j.*;
+
 public class BookService {
 
-    private static Logger logger= LogManager.getLogger(BookService.class);
+    private static Logger logger = LogManager.getLogger(BookService.class);
     Scanner sc = new Scanner(System.in);
-    Map<String, ArrayList<Book>> bookmap = new HashMap<>();
+    static Map<String, Book> bookmap = new HashMap<>();
 
-    ArrayList<Book> booklist = new ArrayList<>();
+    static ArrayList<Book> booklist = new ArrayList<>();
 
-    ArrayList<Book>borrowedBook=new ArrayList<>();
+    ArrayList<Book> borrowedBook = new ArrayList<>();
 
-    Queue<String>bookqueue=new PriorityQueue<>() ;
-        Map<String,BookIssueDetails>bookIssueDetailsMap=new HashMap<String, BookIssueDetails>() ;
+    Queue<String> bookqueue = new PriorityQueue<>();
+//    Map<String, BookIssueDetails> bookIssueDetailsMap = new HashMap<String, BookIssueDetails>();
 
-        public void addBook(Book book) {
-            booklist.add(book);
-            bookmap.put(book.getBookName(), booklist);
-
-        }
-
-    public void showBook() {
-//        logger.error("Available books:");
-//        logger.info("book:");
-        logger.trace("Exiting application.");
+    public void addBook(Book book) {
+        booklist.add(book);
+        bookmap.put(book.getBookName(), book);
 
 
-        booklist.forEach(book -> System.out.println(book.toString()));
     }
+
     public Book issuedBook(String title) {
 
         Book select = null;
@@ -66,29 +62,25 @@ public class BookService {
             logger.error("You successfully borrowed " + title);
 
 
-
         } else if (found == 2) {
 
-            logger.error(title+" book already borrowed!!.");
+            logger.error(title + " book already borrowed!!.");
         }
         return select;
     }
-    public void requestBook(String bookTitle)
-    {
-        for(Book book:booklist)
-        {
+
+    public void requestBook(String bookTitle) {
+        for (Book book : booklist) {
             if (!bookTitle.equalsIgnoreCase(book.getBookName())) {
-                logger.error("Request for book "+bookTitle+ " placed successfully!!");
+                logger.error("Request for book " + bookTitle + " placed successfully!!");
 
                 bookqueue.add(book.getBookName());
                 Iterator it = bookqueue.iterator();
                 while ((it.hasNext())) {
                     System.out.println(it.next() + ",");
                 }
-            break;
-            }
-            else
-            {
+                break;
+            } else {
                 logger.error("book is available ");
 
                 break;
@@ -99,65 +91,42 @@ public class BookService {
 
     }
 
-    public void byBookName(String title) {
+    public List<Book> byBookName(String title) {
+        List<Book> bookwithName = booklist.stream().filter(p -> p.getBookName().contains(title)).collect(Collectors.toList());
+        System.out.println(bookwithName);
 
-        int count = 0;
-        Iterator<Book> itr = booklist.iterator();
-        while (itr.hasNext()) {
-            Book b = itr.next();
-            if (title.equalsIgnoreCase(b.getBookName()) )
-            {
-                count = 1;
-                System.out.println(b.toString());
-                logger.error("Book is available in catlogue");
+        return bookwithName;
 
-            }
-        }
-        if (count == 0) {
-            logger.error("Book is not available in catlogue");
 
-        }
+
     }
 
-    public void byISBN(String isbn)
-    {
-        int count = 0;
-        Iterator<Book> itr = booklist.iterator();
-        while (itr.hasNext()) {
-            Book b = itr.next();
-            if (isbn.equalsIgnoreCase(b.getISBN())) {
-                count = 1;
-                System.out.println(b.toString());
-                logger.error("Book is available for " + isbn);
 
-            }
 
-        }
-        if (count == 0) {
-            logger.error(" Book is not available for  " + isbn);
+    public List<Book> byISBN(String isbn) {
+        List<Book> bookwithName = booklist.stream().filter(p -> p.getBookName().contains(isbn)).collect(Collectors.toList());
+        System.out.println(bookwithName);
 
-        }
+
+        return bookwithName;
+
+
     }
 
-    public void byAuthorName(ArrayList<String> author,String authorname) {
-        int count = 0;
-        Iterator<String> itr = author.iterator();
-        while (itr.hasNext()) {
-            String b = itr.next();
-            if (author.contains(authorname) )
-            {
-                count = 1;
+    public static void searchAuthorName(List<String> searchAuthorName) {
+        int n = authorName.size();
+        Map<String, Book> sb = bookmap.entrySet().stream().filter(e -> e.getValue().authorName.get(n).contains(searchAuthorName.get(n))).collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
+        {
 
-                System.out.println(b.toString());
-                logger.error("Book  available");
-
-            }
+            sb.forEach((key, value) -> {
+                logger.error(key + " " + sb.get(key).getBookName() + " " + sb.get(key).getISBN() + " " + sb.get(key).getAuthorName() + " " + sb.get(key).authorName);
+            });
         }
-        if (count == 0) {
-            logger.error("Book not available");
 
-        }
     }
+
+
+
 
     public void discontinueBook(String isbn) {
         boolean successful = false;
@@ -181,7 +150,7 @@ public class BookService {
         while (itr.hasNext())
         {
             Book b=itr.next();
-            if(bookname.equalsIgnoreCase(b.getBookName()))
+            if(bookname.contains(b.getBookName()))
                 found=1;
             logger.error("book return successfully ");
 

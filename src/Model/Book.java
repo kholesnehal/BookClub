@@ -1,20 +1,19 @@
 package Model;
-
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class Book {
     public boolean borrowed;
     private String bookName;
     private String ISBN;
-    private ArrayList<String>authorName;
+    public  List<String> authorName;
     private Owner owner;
 
-    public Book(String bookName, String ISBN, ArrayList<String> authorName, Owner owner) {
+    public Book(String bookName, String ISBN, List<String> authorName, Owner owner) {
         this.bookName = bookName;
         this.ISBN = ISBN;
         this.authorName = authorName;
         this.owner = owner;
+
     }
 
     @Override
@@ -43,15 +42,20 @@ public class Book {
         this.ISBN = ISBN;
     }
 
-    public ArrayList<String> getAuthorName() {
+    public List<String> getAuthorName() {
         return authorName;
     }
 
-    public void setAuthorName(ArrayList<String> authorName) {
+    public void setAuthorName(List<String> authorName) {
         this.authorName = authorName;
     }
 
     public boolean isBorrowed() {
         return borrowed;
     }
+
+//    public static boolean byBookName(Book book) {
+//        return this.getBookName().contains((CharSequence) book);
+//
+//    }
 }
